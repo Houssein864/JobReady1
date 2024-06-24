@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Update Profile</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+
+        h1 {
+            text-align: center;
+            margin-top: 30px;
+            color: #333;
+        }
+
+        form {
+            max-width: 500px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        label {
+            font-weight: bold;
+            color: #555;
+        }
+
+        input[type="file"],
+        input[type="email"],
+        input[type="text"],
+        select,
+        textarea {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+            color: #333;
+        }
+
+        textarea {
+            resize: vertical;
+        }
+
+        button[type="submit"] {
+            width: 100%;
+            background-color: #007bff;
+            color: #fff;
+            padding: 10px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        button[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <h1>Update Profile</h1>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <label for="profile_image">Profile Picture:</label><br>
+        <input type="file" id="profile_image" name="profile_image"><br><br>
+        
+        <label for="email">Email:</label><br>
+        <input type="email" id="email" name="email" value="{{ form.email.value }}"><br><br>
+        
+        <label for="phone">Phone Number:</label><br>
+        <input type="text" id="phone" name="phone" value="{{ form.phone.value }}"><br><br>
+        
+        <label for="industry_name">Industry:</label><br>
+        <select id="industry_name" name="industry_name">
+            {% for industry in industries %}
+                <option value="{{ industry.name }}" {% if industry.name == form.industry_name.value %} selected {% endif %}>{{ industry.name }}</option>
+            {% endfor %}
+        </select><br><br>
+        
+        <label for="about">About:</label><br>
+        <textarea id="about" name="about" rows="4" cols="50">{{ form.about.value }}</textarea><br><br>
+        
+        <button type="submit">Update</button>
+    </form>
+</body>
+</html>

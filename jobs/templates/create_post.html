@@ -1,0 +1,98 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Create Post</title>
+<style>
+    body {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+    }
+
+    .create-post-container {
+        background-color: #283046;
+        border-radius: 8px;
+        padding: 20px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        max-width: 1000px;
+        width: 300%;
+    }
+
+    .user-info {
+        display: flex;
+        align-items: center;
+        margin-bottom: 10px;
+    }
+
+    .user-info img {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        margin-right: 10px;
+    }
+
+    .username {
+        font-weight: bold;
+        color: #fff;
+    }
+
+    .post-text {
+        width: 100%;
+        min-height: 100px;
+        padding: 10px;
+        border: none;
+        border-radius: 8px;
+        margin-bottom: 10px;
+        resize: none;
+        background-color: #f0f2f5;
+    }
+
+    .action-buttons {
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .photo-button,
+    .file-button,
+    .post-button {
+        padding: 10px 20px;
+        border: none;
+        border-radius: 20px;
+        background-color: #1877f2;
+        color: #fff;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+
+    .photo-button:hover,
+    .file-button:hover,
+    .post-button:hover {
+        background-color: #166fe5;
+    }
+</style>
+</head>
+<body>
+
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="create-post-container">
+            <textarea name="content" class="post-text" placeholder="What's on your mind?"></textarea>
+            <input type="file" name="image" id="image" style="display: none;">
+            <input type="file" name="file" id="file" style="display: none;">
+            <div class="action-buttons">
+                <button type="button" class="photo-button" onclick="document.getElementById('image').click();">Add Photo</button>
+                <button type="button" class="file-button" onclick="document.getElementById('file').click();">Add File</button>
+                <button type="submit" class="post-button">Post</button>
+            </div>
+        </div>
+    </form>
+</body>
+</html>
+{% endblock %}

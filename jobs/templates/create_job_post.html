@@ -1,0 +1,13 @@
+{% if request.user.is_authenticated %}
+  <div style="max-width: 500px; margin: 0 auto; padding: 20px; background-color: #f9f9f9; border-radius: 5px;">
+    <h2 style="font-size: 24px; margin-bottom: 20px;">Create Job Post</h2>
+    <form method="post">
+      {% csrf_token %}
+      {{ form.as_p }}
+      <button type="submit" style="background-color: #5c289b; color: #fff; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer;">Create Post</button>
+    </form>
+  </div>
+{% else %}
+  <p>You need to be logged in to create a job post.</p>
+{% endif %}
+

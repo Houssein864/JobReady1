@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Main Page</title>
+    <style>
+      body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f0f0f0;
+}
+
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+h1, h2, h3 {
+    color: #333;
+}
+
+form {
+    margin-bottom: 20px;
+}
+
+label {
+    font-weight: bold;
+    margin-right: 10px;
+}
+
+select {
+    padding: 5px;
+    font-size: 16px;
+}
+
+button {
+    padding: 8px 16px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+li {
+    background-color: #fff;
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 4px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+a {
+    display: block;
+    text-align: center;
+    margin-top: 20px;
+    color: #007bff;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+
+    </style>
+</head>
+<body>
+    <h1>Welcome Admin</h1>
+
+    <form action="{% url 'delete_industry' %}" method="post">
+        {% csrf_token %}
+        <label for="industry_select">Select Industry to Delete:</label>
+        <select id="industry_select" name="industry_id">
+            {% for industry in industries %}
+                <option value="{{ industry.id }}">{{ industry.name }}</option>
+            {% endfor %}
+        </select>
+        <button type="submit">Delete Industry</button>
+    </form>
+    <form action="{% url 'add_industry' %}" method="post">
+        {% csrf_token %}
+        <label for="industry_name">Industry Name:</label>
+        <input type="text" id="industry_name" name="industry_name" required>
+        <button type="submit">Add Industry</button>
+    </form>
+
+
+    <h2>List of Industries</h2>
+    <ul>
+        {% for industry in industries %}
+            <li>{{ industry.name }}</li>
+        {% endfor %}
+    </ul>
+    <a href="{% url 'signup_second' %}">Create New Company</a>
+
+    <h2>Users by Group</h2>
+    <h3>First Type Group</h3>
+    <ul>
+        {% for user in first_type_users %}
+            <li>{{ user.username }}</li>
+        {% endfor %}
+    </ul>
+
+    <h3>Second Type Group</h3>
+    <ul>
+        {% for user in second_type_users %}
+            <li>{{ user.username }}</li>
+        {% endfor %}
+    </ul>
+</body>
+</html>

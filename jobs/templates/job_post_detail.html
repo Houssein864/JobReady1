@@ -1,0 +1,55 @@
+{% extends 'base1.html' %}
+
+{% block content %}
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #f0f0f0;
+    }
+    .job-post-detail, .job-applications {
+        width: 80%;
+        margin: auto;
+        background-color: #fff;
+        padding: 20px;
+        margin-top: 20px;
+        border-radius: 8px;
+        box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.1);
+    }
+    .job-post-detail h1, .job-applications h2 {
+        color: #333;
+    }
+    .job-post-detail p, .job-applications p {
+        color: #666;
+    }
+    .application-container {
+        border-top: 1px solid #eee;
+        padding-top: 20px;
+    }
+</style>
+<body>
+    <div class="job-post-detail">
+        <h1>{{ job_post.title }}</h1>
+        <p>Type: {{ job_post.get_job_type_display }}</p>
+        <p>Description: {{ job_post.description }}</p>
+        <p>Is Active: {{ job_post.is_active }}</p>
+        <p>Is Remote: {{ job_post.is_remote }}</p>
+        <p>Created By: {{ job_post.created_by.full_name }}</p>
+        <p>Created On: {{ job_post.created_on }}</p>
+    </div>
+
+    <div class="job-applications">
+        <h2>Job Applications</h2>
+        {% for application in job_applications %}
+            <div class="application-container">
+                <h3>Applicant: {{ application.applicant.full_name }}</h3>
+                <p>Letter of Motivation: {{ application.letter_of_motivation }}</p>
+                <p>Applied On: {{ application.applied_on }}</p>
+            </div>
+        {% empty %}
+            <p>No job applications found.</p>
+        {% endfor %}
+    </div>
+</body>
+{% endblock %}

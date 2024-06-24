@@ -1,0 +1,196 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Job Posts</title>
+  <style>
+    /* Global Styles */
+    body, html {
+        height: 100%;
+        margin: 0;
+        font-family: 'Nunito', sans-serif; /* A modern, rounded font */
+        background-color: #f5f5f5; /* Soft gray background for a light and clean look */
+    }
+    
+    /* Container */
+    .container {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between; /* Evenly distribute with space between items */
+        margin: 20px auto;
+        max-width: 1200px; /* Slightly wider max-width for better spacing */
+    }
+    
+    /* Job Post */
+    .job-post {
+        width: calc(33.333% - 20px); /* Three items per row with proper spacing */
+        border: none; /* Remove border for a cleaner look */
+        border-radius: 8px; /* Slightly larger border-radius for a softer look */
+        background-color: #ffffff; /* White background for the job post cards */
+        margin: 10px;
+        box-shadow: 0 12px 8px rgba(0, 0, 0, 0.3); /* Subtle shadow for depth */
+        transition: transform 0.3s, box-shadow 0.3s; /* Smooth transition for shadow as well */
+        cursor: pointer;
+        text-decoration: none;
+        overflow: hidden; /* Ensures no content spills out */
+    }
+    
+    .job-post:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2); /* Slightly larger shadow on hover for a 'lifting' effect */
+    }
+    
+    .job-info {
+        padding: 20px; /* More padding for better spacing */
+    }
+    
+    .job-info h2 {
+        margin: 0 0 10px 0; /* Add bottom margin for spacing */
+        font-size: 22px; /* Slightly larger font size */
+        color: #5cb85c; /* Use a consistent color for titles */
+    }
+    
+    .job-info p {
+        margin: 5px 0;
+        color: #333; /* Darker text for better readability */
+    }
+    
+    .job-info p.company {
+        font-weight: bold;
+        color: #3498db; /* Consistent blue accent for company */
+    }
+    
+    .job-info p.job-type {
+        font-style: italic;
+        color: #95a5a6; /* Soft gray for job type */
+    }
+    
+    .job-info p.description {
+        line-height: 1.6; /* Improved line height for readability */
+        color: #555; /* Consistent text color for description */
+    }
+    
+    /* Popup */
+    .popup {
+        display: none;
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background-color: #ffffff; /* White background for the popup */
+        border: none; /* Remove border for a cleaner look */
+        border-radius: 10px;
+        padding: 30px; /* More padding for a spacious feel */
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2); /* Stronger shadow for a floating effect */
+        z-index: 1000;
+        width: 450px; /* Slightly wider pop-up for better form layout */
+    }
+    
+    .popup-content {
+        text-align: left; /* Left align content for a more traditional form layout */
+    }
+    
+    .popup-content h2 {
+        margin-top: 0;
+        font-size: 26px; /* Larger font size for the title */
+        color: #34495e; /* Dark blue color for a professional look */
+    }
+    
+    .popup-content label {
+        display: block;
+        margin-bottom: 15px; /* More space between label and textarea */
+        color: #34495e; /* Dark text for labels */
+        font-weight: bold; /* Bold font for labels */
+    }
+    
+    .popup-content textarea {
+        width: 100%;
+        padding: 15px; /* More padding for text area */
+        margin-bottom: 20px; /* More space below textarea */
+        border: 2px solid #ecf0f1; /* Subtle border for textarea */
+        border-radius: 8px; /* Rounded corners for textarea */
+        font-family: 'Nunito', sans-serif; /* Consistent font family */
+        font-size: 16px; /* Larger font size for better readability */
+    }
+    
+    .popup-content button {
+        padding: 12px 25px; /* Larger padding for a bigger button */
+        background-color: #3498db; /* Blue color for primary action */
+        color: #fff;
+        border: none;
+        border-radius: 8px; /* Rounded corners for buttons */
+        cursor: pointer;
+        transition: background-color 0.3s;
+        margin-top: 10px;
+        font-size: 16px; /* Larger font size for buttons */
+    }
+    
+    .popup-content button:hover {
+        background-color: #2980b9; /* Darken button color on hover */
+    }
+    
+    .popup-content button:last-child {
+        background-color: #95a5a6; /* Different color for secondary action */
+    }
+    
+    .popup-content button:last-child:hover {
+        background-color: #7f8c8d; /* Darken button color on hover for secondary action */
+    }
+    
+  </style>
+</head>
+<body>
+  <div class="container">
+    {% for job in all_jobs %}
+      <a href="#" onclick="showPopup('{{ job.id }}')" class="job-post"> <!-- Add onclick event to the anchor tag -->
+        <div class="job-info">
+          <h2>{{ job.title }}</h2>
+          <p class="company">Company: {{ job.created_by.username }}</p>
+          <p class="job-type">Job Type: {{ job.get_job_type_display }}</p>
+          <p class="description">{{ job.description | truncatechars:150 }}</p>
+        </div>
+      </a>
+    {% endfor %}
+  </div>
+
+  <div id="apply-popup" class="popup" style="display: none;">
+    <div class="popup-content">
+        <h2>Apply for Job: <span id="job-title"></span></h2>
+        <form id="apply-form" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <label for="id_letter_of_motivation">Motivation Letter:</label><br>
+            <textarea id="id_letter_of_motivation" name="letter_of_motivation" rows="4" cols="50"></textarea><br><br>
+            <button type="submit">Submit Application</button>
+        </form>
+        <button onclick="hidePopup()">Cancel</button>
+    </div>
+  </div>
+
+<script>
+  // JavaScript functions for showing and hiding the pop-up window
+  function showPopup(jobId) {
+      var popup = document.getElementById('apply-popup');
+      popup.style.display = 'block';
+      
+      // Set the action of the form to include the job ID
+      var form = document.getElementById('apply-form');
+      form.action = '/apply/' + jobId + '/';
+      
+      // Set the job title in the pop-up
+      var jobTitle = document.getElementById('job-title');
+      jobTitle.innerText = document.querySelector('.job-post[data-job-id="' + jobId + '"] .job-info h2').innerText;
+  }
+  
+  function hidePopup() {
+      var popup = document.getElementById('apply-popup');
+      popup.style.display = 'none';
+  }
+</script>
+</body>
+</html>
+{% endblock %}

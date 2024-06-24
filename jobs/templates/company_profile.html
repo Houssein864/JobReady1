@@ -1,0 +1,257 @@
+{% extends 'base1.html' %}
+
+ {% block content %}
+
+ <!DOCTYPE html>
+<html>
+<head>
+    <title>Company Profile</title>
+    <style>
+        
+            /* Global Styles */
+            body, html {
+                height: 100%;
+                margin: 0;
+                font-family: 'Nunito', sans-serif; /* A modern, rounded font */
+                background-color: #808080;
+            }
+            
+            /* Profile Card */
+            .profile-card {
+                background-color: #778899;
+                border-radius: 10px;
+                box-shadow: 0 12px 12px rgba(0, 0, 0, 0.2);
+                overflow: hidden;
+                margin: auto;
+                width: 90%;
+                max-width: 500px;
+                margin-top: 120px; /* Added top margin */
+            }
+            
+            /* Cover Photo */
+            .cover-photo {
+                width: 100%;
+                height: 200px;
+                object-fit: cover;
+            }
+            
+            /* Profile Picture */
+            .profile-picture {
+                width: 150px;
+                height: 150px;
+                border-radius: 50%;
+                border: 5px solid #fff; /* White border around the profile picture */
+                position: absolute;
+                top: -75px; /* Half outside the card */
+                left: calc(50% - 75px); /* Centered horizontally */
+                object-fit: cover;
+                margin-top: 120px; /* Added top margin */
+            }
+            
+            /* Card Content */
+            .card-content {
+                padding: 100px 20px 20px; /* Make room for the profile picture */
+                text-align: center;
+            }
+            
+            /* User Info */
+            .user-info h1 {
+                margin: 0;
+                padding: 0;
+                font-size: 39px;
+                color: #333;
+            }
+            
+            .user-info p {
+                color: #666;
+                font-size: 16px;
+            }
+            
+            /* Edit Profile Button */
+            .edit-profile {
+                display: inline-block;
+                margin-top: 20px;
+                padding: 10px 20px;
+                color: #fff;
+                background-color: #808080;
+                border-radius: 20px;
+                text-decoration: none;
+                font-weight: bold;
+                transition: background-color 0.3s;
+                box-shadow: 7px 7px 7px rgba(0, 0, 0, 0.2);
+
+            }
+            
+            .edit-profile:hover {
+                background-color: #8080FF;
+            }
+            
+            /* About Section */
+            .about-section {
+                background-color: #d7ebff;
+                padding: 20px;
+                margin-top: 20px;
+                border-radius: 8px;
+                color: #333;
+                font-size: 16px;
+                line-height: 1.6;
+                box-shadow: 0 4px 4px rgba(0, 0, 0, 0.1);
+
+            }
+            
+            /* Submit Button */
+            .submit-btn {
+                background-color: #28a745;
+                color: #fff;
+                border: none;
+                padding: 10px 20px;
+                border-radius: 20px;
+                cursor: pointer;
+                transition: background-color 0.3s;
+            }
+            
+            .submit-btn:hover {
+                background-color: #218838;
+            }
+            
+        
+      
+            /* Job Postings Section */
+      .job-postings {
+          margin-top: 30px;
+      }
+      
+      .job-postings h2 {
+          color: #333;
+          font-size: 28px;
+          margin-bottom: 20px;
+      }
+      
+      /* Job Post Container */
+      .post-container {
+          background-color: #778899;
+          border-radius: 10px;
+          box-shadow: 0 10px 10px rgba(0, 0, 0, 0.2);
+          padding: 20px;
+          margin-bottom: 20px;
+          transition: box-shadow 0.3s;
+      }
+      
+      .post-container:hover {
+          box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+      }
+      
+      /* Job Title */
+      .post-container h3 {
+          color: #007bff;
+          margin-top: 0;
+      }
+      
+      /* Job Description */
+      .post-container p {
+          color: #fff;
+          line-height: 1.5;
+      }
+      
+      /* Update Form */
+      .post-container form {
+          margin-top: 15px;
+      }
+      
+      /* Active Checkbox Label */
+      .post-container label {
+          margin-right: 10px;
+          font-weight: bold;
+          color: #333;
+      }
+      
+      /* Update Button */
+      .post-container button {
+          background-color: #28a745;
+          color: #fff;
+          border: none;
+          padding: 8px 16px;
+          border-radius: 4px;
+          cursor: pointer;
+          transition: background-color 0.3s;
+      }
+      
+      .post-container button:hover {
+          background-color: #218838;
+      }
+      
+      /* Applicants Section */
+      .applicants {
+          margin-top: 20px;
+      }
+      
+      .applicants h4 {
+          color: #333;
+          font-size: 20px;
+          margin-bottom: 10px;
+      }
+      
+      .applicants ul {
+          list-style-type: none;
+          padding: 0;
+      }
+      
+      .applicants li {
+          background-color: #f9f9f9;
+          border: 1px solid #ddd;
+          padding: 10px;
+          margin-bottom: 5px;
+          border-radius: 5px;
+          color: #333;
+          transition: background-color 0.3s;
+      }
+      
+      .applicants li:hover {
+          background-color: #efefef;
+      }
+            
+    </style>
+</head>
+<body>
+    <div class="profile-card">
+        <img class="cover-photo" src="{{ company.profile_image.url }}" alt="Cover Photo">
+        <img class="profile-picture" src="{{ company.profile_image.url }}" alt="Profile Picture">
+      
+        <div class="card-content">
+            <div class="user-info">
+                <h1>{{ company.full_name }}</h1>
+                <p>{{ company.email }}</p>
+                <!-- Add more user fields here -->
+            </div>
+
+            <a class="edit-profile" href="{% url 'edit_company_profile' %}">Edit Profile</a>
+
+            <div class="about-section">
+                <h2>About</h2>
+                <p>{{ company.about }}</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="job-postings">
+        {% for post in company_posts %}
+            <div class="post-container">
+                <h3>
+                    <a href="{% url 'job_post_detail' post.id %}">{{ post.title }}</a>
+                </h3>
+                <p>{{ post.description }}</p>
+                
+                <!-- Delete button that submits a POST request to delete the job post -->
+                <form method="POST" action="{% url 'delete_job_post' post.id %}">
+                    {% csrf_token %} <!-- Protect against CSRF attacks -->
+                    <button type="submit" style="background-color: #808080; color: white; box-shadow: 0 10px 10px rgba(0, 0, 0, 0.1); border: none; padding: 8px 16px; border-radius: 4px;"
+                    class="btn btn-danger">Delete Post</button>
+                </form>
+            </div>
+        {% empty %}
+            <p>No job posts found.</p>
+        {% endfor %}
+    </div>
+</body>
+</html>
+{% endblock %}

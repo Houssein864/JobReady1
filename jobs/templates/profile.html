@@ -1,0 +1,155 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Profile</title>
+    <style>
+        /* CSS to limit the size of images */
+        .post-image {
+            max-width: 200px; /* Adjust the maximum width as needed */
+            max-height: 200px; /* Adjust the maximum height as needed */
+        }
+
+        /* CSS to style the post container */
+        .post-container {
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+            background-color: #f9f9f9; /* Light gray background */
+        }
+
+        /* CSS to style the profile picture */
+        .profile-picture-container {
+            position: relative;
+            display: inline-block;
+        }
+
+        .profile-picture {
+            border-radius: 50%;
+            width: 150px; /* Adjust the size of the profile picture */
+            height: 150px; /* Adjust the size of the profile picture */
+            object-fit: cover;
+            object-position: center;
+        }
+
+        /* CSS to style the edit button */
+        .edit-button {
+            position: absolute;
+            top: 5px; /* Adjust the top position as needed */
+            right: 5px; /* Adjust the right position as needed */
+            background-color: rgba(255, 255, 255, 0.7); /* Semi-transparent background */
+            padding: 5px;
+            border-radius: 50%;
+            cursor: pointer;
+            color: #333; /* Dark gray text color */
+            text-decoration: none;
+        }
+
+        .edit-button:hover {
+            background-color: rgba(0, 0, 0, 0.1); /* Light gray background on hover */
+        }
+
+        /* Additional styling for user information */
+        p {
+            margin: 0;
+            color: #555; /* Medium gray text color */
+        }
+
+        /* Styling for headings */
+        h2 {
+            color: #333; /* Dark gray text color */
+        }
+
+        /* CSS for the "About" section */
+        .about-box {
+    width: 50%;
+    padding: 20px;
+    border: 2px solid #007bff; /* Blue border */
+    border-radius: 8px;
+    background-color: #f0f8ff; /* Light blue background */
+    color: #333; /* Dark gray text color */
+    font-size: 16px;
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Soft shadow */
+}
+
+
+
+        #about:focus {
+            outline: none; /* Remove default focus outline */
+            border-color: #007bff; /* Blue border color on focus */
+        }
+
+        /* CSS for the "Save" button */
+        button[type="submit"] {
+            background-color: #007bff; /* Blue button color */
+            color: #fff; /* White text color */
+            border: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        button[type="submit"]:hover {
+            background-color: #0056b3; /* Darker blue on hover */
+        }
+    </style>
+</head>
+<body>
+    {% if user.profile_image %}
+    <div class="profile-picture-container">
+        <img src="{{ user.profile_image.url }}" alt="Profile Picture" class="profile-picture">
+        <a href="{% url 'update_profile_image' %}" class="edit-button">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
+                <path fill="currentColor" d="M20.75 4.812l-1.562-1.563c-.375-.375-.844-.563-1.375-.563s-.938.188-1.313.563l-12.5 12.5c-.375.375-.563.844-.563 1.375v4.375c0 .563.188 1.063.563 1.438.375.375.875.562 1.5.562h4.375c.531 0 1-.188 1.375-.563l12.5-12.5c.375-.375.562-.844.562-1.375s-.188-1-.562-1.375zm-15.5 15.5v-2.875l10.938-10.938 2.875 2.875zm14.25-12.188l-2.875-2.875 1.563-1.563 2.875 2.875zm-1.75-1.75l-1.563 1.563-2.875-2.875 1.563-1.563 2.875 2.875z"/>
+              </svg>
+        </a>
+    </div>
+    {% else %}
+    <p>No profile picture uploaded.</p>
+    <a href="{% url 'update_profile_image' %}" class="edit-button">Upload Profile Picture</a>
+    {% endif %}
+    <p><strong>Name:</strong> {{ user.username }}</p>
+    <p><strong>Email:</strong> {{ user.email }}</p>
+    <p><strong>Phone Number:</strong> {{ user.phone }}</p>
+    <p><strong>Industry:</strong> {{ user.industry_name }}</p>
+  
+   
+
+    <form method="post" action="{% url 'update_about' %}">
+        {% csrf_token %}
+        <p><strong>About:</strong></p>
+        <div id="about" class="about-box">{{ user.about }}</div>
+        
+    
+    </form>
+    
+    <h2>Posts:</h2>
+    <ul>
+        {% for post in posts %}
+        <li>
+            <div class="post-container"> <!-- Add a container around each post -->
+                <form action="{% url 'delete_post' post.id %}" method="post">
+                    {% csrf_token %}
+                    <p>{{ post.content }}</p>
+                    {% if post.file %}
+                    <p><strong>File:</strong> <a href="{{ post.file.url }}">{{ post.file.name }}</a></p>
+                    {% endif %}
+                    {% if post.image %}
+                    <img src="{{ post.image.url }}" alt="Post Image" class="post-image">
+                    {% endif %}
+                    <button type="submit">Delete</button>
+                </form>
+            </div>
+        </li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
+{% endblock %}

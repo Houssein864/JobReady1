@@ -1,0 +1,80 @@
+{% extends 'base1.html' %}
+
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit Profile</title>
+    <style>
+        /* Global Styles */
+        body, html {
+            height: 100%;
+            margin: 0;
+            font-family: 'Nunito', sans-serif; /* A modern, rounded font */
+            background-color: #808080;
+        }
+
+        /* Edit Profile Form */
+        .edit-profile-form {
+            background-color: #778899;
+            border-radius: 10px;
+            box-shadow: 0 12px 12px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+            margin: auto;
+            width: 90%;
+            max-width: 500px;
+            padding: 20px;
+            margin-top: 120px; /* Added top margin */
+            margin-bottom: 80px;
+        }
+
+        h1 {
+            color: #fff;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        /* Submit Button */
+        .submit-btn {
+            background-color: #808080;
+            box-shadow: 0 12px 12px rgba(0, 0, 0, 0.2);
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            display: block;
+            width: 100%;
+            margin-top: 10px;
+        }
+
+        .submit-btn:hover {
+            background-color: #8080FF;
+        }
+
+        /* Form Fields */
+        .edit-profile-form input,
+        .edit-profile-form textarea,
+        .edit-profile-form select {
+            width: calc(100% - 20px);
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 7px;
+            border: 1px solid #ddd;
+        }
+    </style>
+</head>
+<body>
+    <div class="edit-profile-form">
+        <h1>Edit Profile</h1>
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" class="submit-btn">Save</button>
+        </form>
+    </div>
+</body>
+</html>
+{% endblock %}

@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Login</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            position: relative;
+        }
+
+        .login-container {
+            background-color: #fff;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.1);
+            max-width: 400px;
+            width: 100%;
+            z-index: 1;
+        }
+
+        h2 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 30px;
+        }
+
+        label {
+            font-weight: bold;
+            display: block;
+            margin-bottom: 5px;
+            color: #555;
+        }
+
+        input[type="text"],
+        input[type="password"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #ddd;
+            border-radius: 15px;
+            transition: border-color 0.3s;
+        }
+
+        input[type="text"]:focus,
+        input[type="password"]:focus {
+            border-color: #007bff;
+            outline: none;
+        }
+
+        button[type="submit"] {
+            width: 105%;
+            padding: 10px;
+            background-color: #5c289b;
+            color: #fff;
+            border: none;
+            border-radius: 15px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button[type="submit"]:hover {
+            background-color: #5c289b;
+        }
+
+        .register-link {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .register-link a {
+            color: #007bff;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .register-link a:hover {
+            color: #0056b3;
+        }
+
+        .login-container button[type="submit"] {
+            display: block;
+            margin: 0 auto;
+        }
+
+        /* Background styling */
+        .background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+        }
+
+        .background span {
+            color: rgba(92, 40, 155, 0.1); /* Adjust color and opacity as needed */
+            position: absolute;
+            white-space: nowrap;
+            font-size: 24px; /* Adjust font size as needed */
+        }
+       
+
+       
+        .background span:nth-child(1) {
+            top: 20%;
+            left: 10%;
+        }
+        .background span:nth-child(2) {
+            top: 30%;
+            left: 20%;
+        }
+        .background span:nth-child(3) {
+            top: 40%;
+            left: 30%;
+        }
+        .background span:nth-child(4) {
+            top: 50%;
+            left: 40%;
+        }
+        .background span:nth-child(5) {
+            top: 60%;
+            left: 50%;
+        }
+        .background span:nth-child(6) {
+            top: 70%;
+            left: 60%;
+        }
+        .background span:nth-child(7) {
+            top: 80%;
+            left: 70%;
+        }
+        .background span:nth-child(8) {
+            top: 90%;
+            left: 80%;
+        }
+        .background span:nth-child(9) {
+            top: 100%;
+            left: 90%;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <h2>Login</h2>
+        <form method="post">
+            {% csrf_token %}
+            <div>
+                <label for="id_username">Username:</label>
+                <input type="text" id="id_username" name="username">
+            </div>
+            <div>
+                <label for="id_password">Password:</label>
+                <input type="password" id="id_password" name="password">
+            </div>
+            <button type="submit">Login</button>
+        </form>
+        <div class="register-link">
+            Don't have an account? <a href="/signup">Register</a>
+        </div>
+    </div>
+
+    
+    <div class="background">
+        <span>JOBREADY</span>
+        <span>JOBREADY</span>
+        <span>JOBREADY</span>
+        <span>JOBREADY</span>
+        <span>JOBREADY</span>
+        <span>JOBREADY</span>
+        <span>JOBREADY</span>
+        <span>JOBREADY</span>
+        
+    </div>
+</body>
+</html>

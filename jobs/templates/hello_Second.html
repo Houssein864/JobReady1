@@ -1,0 +1,93 @@
+{% extends 'base1.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    
+    <ul class="post-list">
+        {% for post in posts %}
+        <li class="post-item">
+            <div class="post-container">
+                <div class="profile-picture-container">
+                    {% if post.created_by.profile_image %}
+                        <img src="{{ post.created_by.profile_image.url }}" alt="Profile Picture" class="profile-picture">
+                    {% else %}
+                        <p></p>
+                    {% endif %}
+                </div>
+                <p class="post-info"><strong> {{ post.created_by.username }} </strong><br />
+                     {{ post.created_on }}</p>
+                <p class="post-content">{{ post.content }}</p>
+                
+                {% if post.file %}
+                <p class="post-file"><strong>File:</strong> <a href="{{ post.file.url }}">{{ post.file.name }}</a></p>
+                {% endif %}
+                {% if post.image %}
+                <img src="{{ post.image.url }}" alt="Post Image" class="post-image">
+                {% endif %}
+            </div>
+        </li>
+        {% endfor %}
+    </ul>
+</div>
+
+<style>
+    .post-list {
+        list-style-type: none;
+        padding: 0;
+    }
+
+    .post-item {
+        margin-bottom: 20px;
+        padding: 10px;
+    }
+
+    .post-content {
+        font-size: 16px;
+        margin-bottom: 10px;
+    }
+
+    .post-info {
+        font-style: italic;
+        font-size: 15px;
+        color: #999;
+    }
+
+    .post-file {
+        margin-top: 10px;
+    }
+
+    .container {
+
+        background-color: #200060; /* Light gray background color */
+        border-radius: 20px; /* Rounded corners */
+        padding: 10px; /* Add some padding */
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Add a subtle shadow */
+    }
+
+    .post-container {
+        background-color: #fff; /* White background color */
+        border-radius: 8px; /* Rounded corners */
+        padding: 15px; /* Add some padding */
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Add a subtle shadow */
+    }
+
+    .post-image {
+        max-width: 200px;
+        height: auto;
+    }
+
+    .profile-picture-container {
+        display: inline-block;
+        vertical-align: top;
+        margin-right: 10px;
+    }
+
+    .profile-picture {
+        border-radius: 50%;
+        width: 50px; /* Adjust the size of the profile picture */
+        height: 50px; /* Adjust the size of the profile picture */
+        object-fit: cover;
+        object-position: center;
+    }
+</style>
+{% endblock %}

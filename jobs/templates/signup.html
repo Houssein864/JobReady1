@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Sign Up</title>
+    <style>
+        /* Center the container */
+        .container {
+            max-width: 500px;
+            width: 90%;
+            margin: 50px auto 0; /* Adjust margin to add space on the top */
+            background-color: #ffffff; /* White background color */
+            padding: 20px; /* Add some padding */
+            border-radius: 10px; /* Rounded corners */
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Box shadow for a little depth */
+            position: relative;
+        }
+
+        h2 {
+            text-align: center; /* Center the heading */
+        }
+
+        /* Style form elements */
+        label {
+            display: inline-block; /* Labels next to inputs for space saving */
+            width: 25%;  /* Adjust label width as needed */
+            margin-bottom: 5px;
+        }
+
+        input[type="text"],
+        input[type="email"],
+        input[type="password"],
+        select {
+            width: calc(70% - 45px);  /* Adjust input width as needed */
+            padding: 5px;
+            margin-bottom: 5px;
+            border-radius: 5px;
+            border: 1px solid #1c4a2c;
+        }
+
+        button[type="submit"] {
+          background-color: #5c289b; /* Purple submit button */
+            color: #ffffff; /* White text color */
+            padding: 10px 20px; /* Add padding */
+            border: none; /* Remove border */
+            border-radius: 5px; /* Rounded corners */
+            cursor: pointer; /* Add cursor pointer on hover */
+            display: block; /* Make button a block element */
+            margin: 20px auto 0; /* Center the button horizontally and add space on the top */
+        }
+
+        button[type="submit"]:hover {
+          background-color: #5c289b; /* Darker purple on hover */
+        }
+
+        /* Background styling */
+        .background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+        }
+
+        .background span {
+            color: rgba(0, 0, 0, 0.1); /* Adjust color and opacity as needed */
+            position: absolute;
+            white-space: nowrap;
+            font-size: 24px; /* Adjust font size as needed */
+        }
+
+        /* Adjust positioning and spacing of JOBREADY */
+        .background span:nth-child(1) {
+            top: 20%;
+            left: 10%;
+        }
+        .background span:nth-child(2) {
+            top: 30%;
+            left: 20%;
+        }
+        .background span:nth-child(3) {
+            top: 40%;
+            left: 30%;
+        }
+        .background span:nth-child(4) {
+            top: 50%;
+            left: 40%;
+        }
+        .background span:nth-child(5) {
+            top: 60%;
+            left: 50%;
+        }
+        .background span:nth-child(6) {
+            top: 70%;
+            left: 60%;
+        }
+        .background span:nth-child(7) {
+            top: 80%;
+            left: 70%;
+        }
+        .background span:nth-child(8) {
+            top: 90%;
+            left: 80%;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Sign Up</h2>
+        <form method="post">
+            {% csrf_token %}
+            {% for field in form %}
+            <div>
+                <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                {% if field.name == 'industry_name' %}
+                <select name="{{ field.name }}">
+                    <option value="">Select Industry</option>
+                    {% for industry in industries %}
+                    <option value="{{ industry }}">{{ industry }}</option>
+                    {% endfor %}
+                </select>
+                {% else %}
+                {{ field }}
+                {% endif %}
+            </div>
+            {% endfor %}
+            <button type="submit">Sign Up</button>
+        </form>
+    </div>
+    <!-- Background with JOBREADY -->
+    <div class="background">
+        <span>JOBREADY</span>
+        <span>JOBREADY</span>
+        <span>JOBREADY</span>
+        <span>JOBREADY</span>
+        <span>JOBREADY</span>
+        <span>JOBREADY</span>
+        <span>JOBREADY</span>
+        <span>JOBREADY</span>
+    </div>
+</body>
+</html>

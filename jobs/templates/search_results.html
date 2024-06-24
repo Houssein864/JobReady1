@@ -1,0 +1,135 @@
+{% extends 'base.html' %}
+{% block content %}
+
+ <!DOCTYPE html>
+<html>
+<head>
+    <title>Company Profile</title>
+    <style>
+        /* Global Styles */
+        body, html {
+            height: 100%;
+            margin: 0;
+            font-family: 'Nunito', sans-serif; /* A modern, rounded font */
+            background-color: #808080;
+        }
+
+        /* Search Page Container */
+        .search-page-container {
+            background-color: #778899;
+            border-radius: 10px;
+            box-shadow: 0 12px 12px rgba(0, 0, 0, 0.2);
+            padding: 20px;
+            margin: auto;
+            width: 90%;
+            max-width: 500px;
+            margin-top: 120px; /* Added top margin */
+            color: #fff; /* For better readability on the dark background */
+        }
+
+        /* Search Form */
+        .search-page-container form {
+            margin-bottom: 20px;
+        }
+
+        .search-page-container input[type="text"] {
+            width: calc(100% - 110px); /* Input field takes up remaining space */
+            padding: 10px;
+            margin-right: 10px; /* Space between input field and button */
+            border-radius: 20px;
+            border: none;
+        }
+
+        .search-page-container button {
+            background-color: #808080;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.1);
+
+        }
+
+        .search-page-container button:hover {
+            background-color: #8080FF;
+        }
+
+        /* Results Sections */
+        .search-page-container h3 {
+            color: #d7ebff;
+        }
+
+        .search-page-container ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .search-page-container li {
+            background-color: #d7ebff;
+            color: #808080;
+            margin-bottom: 10px;
+            padding: 10px;
+            border-radius: 8px;
+            box-shadow: 0 4px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        /* No Results Message */
+        .search-page-container p {
+            color: #d7ebff;
+        }
+    </style>
+</head>
+<body>
+ 
+<div class="search-page-container">
+    <h2>Search Page</h2>
+    <!-- Search form to submit queries -->
+    <form method="GET" action="{% url 'search' %}">
+        <input
+            type="text"
+            name="q"
+            placeholder="Search by username or job title"
+            value="{{ query }}"
+        />
+        <button type="submit">Search</button>
+    </form>
+
+    {% if query %}
+        <!-- Displaying user results if there are any matching users -->
+        {% if users %}
+            <h3>User Results</h3>
+            <ul>
+                {% for user in users %}
+                    <li>
+                        {% comment %} <a href="{% url 'user_profile' user.username %}">{{ user.username }}</a> {% endcomment %}
+                        ({{ user.full_name }})
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>No users found for '{{ query }}'.</p>
+        {% endif %}
+
+        <!-- Displaying job post results if there are any matching jobs -->
+        {% if jobs %}
+            <h3>Job Post Results</h3>
+            <ul>
+                {% for job in jobs %}
+                    <li>{{ job.title }} - Created by {{ job.created_by.username }}</li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>No job posts found for '{{ query }}'.</p>
+        {% endif %}
+    {% endif %}
+</div>
+
+
+
+
+
+</body>
+</html>
+{% endblock %}
